@@ -11,6 +11,10 @@ export default createGlobalStyle`
     color: #FFFFFF;
   }
 
+  html, body, #root {
+    height: 100%;
+  }
+
   button {
     cursor: pointer;
   }

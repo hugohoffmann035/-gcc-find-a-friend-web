@@ -71,7 +71,7 @@ export const Action = styled.div`
     align-items: center;
 
     .label {
-      font-size: 1rem;
+      font-size: 1.2rem;
     }
 
     .separator {
@@ -80,7 +80,11 @@ export const Action = styled.div`
   }
 `
 
-export const ButtonSelectState = styled.button`
+type ButtonSelectType = {
+  isOpenDropdown?: boolean
+}
+
+export const ButtonSelect = styled.button<ButtonSelectType>`
   height: 72px;
   width: 72px;
   border: 1px solid #fff;
@@ -97,10 +101,12 @@ export const ButtonSelectState = styled.button`
 
   img {
     margin-left: 6px;
+    transform: ${({ isOpenDropdown }) =>
+      isOpenDropdown ? `rotate(180deg)` : `rotate(0deg)`};
   }
 `
 
-export const ButtonSelectCity = styled.button`
+export const ButtonSelectCity = styled.button<ButtonSelectType>`
   height: 72px;
   min-width: 280px;
   border-radius: 20px;
@@ -117,6 +123,8 @@ export const ButtonSelectCity = styled.button`
 
   img {
     margin-left: 6px;
+    transform: ${({ isOpenDropdown }) =>
+      isOpenDropdown ? `rotate(180deg)` : `rotate(0deg)`};
   }
 `
 
@@ -130,4 +138,82 @@ export const ButtonSearch = styled.button`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+`
+
+export const SelectContainer = styled.div`
+  position: relative;
+`
+
+type DropdownType = {
+  isOpenDropdown?: boolean
+}
+
+export const StateList = styled.ul<DropdownType>`
+  position: absolute;
+  max-height: 170px;
+  overflow-y: scroll;
+  min-width: 72px;
+  display: ${({ isOpenDropdown }) => (isOpenDropdown ? 'block' : 'none')};
+  margin-top: 5px;
+
+  li {
+    list-style: none;
+    text-align: center;
+    height: 72px;
+    min-width: 72px;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+
+    &.selected {
+      background: ${(props) => props.theme.colors.secundary};
+    }
+
+    &:hover {
+      background: ${(props) => props.theme.colors.secundary};
+    }
+
+    & + li {
+      margin-top: 5px;
+    }
+  }
+`
+
+export const CitieList = styled.ul<DropdownType>`
+  position: absolute;
+  max-height: 170px;
+  overflow-y: scroll;
+  min-width: 72px;
+  display: ${({ isOpenDropdown }) => (isOpenDropdown ? 'block' : 'none')};
+  margin-top: 5px;
+
+  li {
+    list-style: none;
+    text-align: center;
+    height: 72px;
+    min-width: 280px;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+
+    &.selected {
+      background: ${(props) => props.theme.colors.secundary};
+    }
+
+    &:hover {
+      background: ${(props) => props.theme.colors.secundary};
+    }
+
+    & + li {
+      margin-top: 5px;
+    }
+  }
 `

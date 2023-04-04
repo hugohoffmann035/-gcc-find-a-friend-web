@@ -4,27 +4,84 @@ import {
   Logo,
   Banner,
   Action,
-  ButtonSelectState,
+  ButtonSelect,
   ButtonSelectCity,
   ButtonSearch,
+  SelectContainer,
+  StateList,
+  CitieList,
 } from './styles'
 import LogoSvg from '@/assets/icons/logo.svg'
 import DogsSvg from '@/assets/images/dogs.svg'
 import ArrowDownSvg from '@/assets/icons/arrow-down.svg'
 import SearchSvg from '@/assets/icons/search.svg'
 
+import { useLocation, IState, ICity } from '@/hooks/useLocation'
+import { useEffect, useState } from 'react'
+
 export function Home() {
-  function handleSearchPets() {
-    // TO DO
+  const { getStates, getCitiesByState } = useLocation()
+  const [stateList, setStateList] = useState<IState[]>([])
+  const [cityList, setCityList] = useState<ICity[]>([])
+  const [isOpenSelectState, setIsOpenSelectState] = useState(false)
+  const [isOpenSelectCitie, setIsOpenSelectCitie] = useState(false)
+  const [stateSelected, setStateSelected] = useState('GO')
+  const [citieSelected, setCitieSelected] = useState('')
+  // const [isLoadCities, setIsLoadCities] = useState(false)
+
+  function handleToggleSelectState() {
+    setIsOpenSelectState((prev) => !prev)
   }
 
-  function handleChangeState() {
-    // TO DO
+  function handleCloseSelectState() {
+    setIsOpenSelectState(false)
   }
 
-  function handleChangeCity() {
-    // TO DO
+  async function onLoadCities(value: string) {
+    const list = await getCitiesByState(value)
+    setCityList(list)
   }
+
+  async function handleSelectState(value: string) {
+    setCitieSelected('')
+    setStateSelected(value)
+    handleCloseSelectState()
+    await onLoadCities(value)
+  }
+
+  function handleToggleSelectCitie() {
+    setIsOpenSelectCitie((prev) => !prev)
+  }
+
+  function handleCloseSelectCitie() {
+    setIsOpenSelectCitie(false)
+  }
+
+  async function load() {
+    const states = await getStates()
+    setStateList(states)
+  }
+
+  function handleSelectCitie(value: string) {
+    setCitieSelected(value)
+    handleCloseSelectCitie()
+  }
+
+  useEffect(() => {
+    load()
+  }, [])
+
+  // function handleSearchPets() {
+  //   // TO DO
+  // }
+
+  // function handleChangeState() {
+  //   // TO DO
+  // }
+
+  // function handleChangeCity() {
+  //   // TO DO
+  // }
 
   return (
     <Container>
@@ -48,23 +105,55 @@ export function Home() {
             <p>Encontre o animal de estimação ideal</p>
             <p>para seu estilo de vida!</p>
           </div>
-          <form className="form">
+          <div className="form">
             <span className="label">Busque um amigo:</span>
             <div className="separator" />
-            <ButtonSelectState>
-              <span>PE</span>
-              <img src={ArrowDownSvg} />
-            </ButtonSelectState>
+            <SelectContainer>
+              <ButtonSelect
+                isOpenDropdown={isOpenSelectState}
+                onClick={handleToggleSelectState}
+              >
+                <span>{stateSelected}</span>
+                <img src={ArrowDownSvg} />
+              </ButtonSelect>
+              <StateList isOpenDropdown={isOpenSelectState}>
+                {stateList?.map((item, idx) => (
+                  <li
+                    key={idx}
+                    onClick={() => handleSelectState(item.sigla)}
+                    className={item.sigla === stateSelected ? 'selected' : ''}
+                  >
+                    {item.sigla}
+                  </li>
+                ))}
+              </StateList>
+            </SelectContainer>
             <div className="separator" />
-            <ButtonSelectCity>
-              <span>Recife</span>
-              <img src={ArrowDownSvg} />
-            </ButtonSelectCity>
+            <SelectContainer>
+              <ButtonSelectCity
+                isOpenDropdown={isOpenSelectCitie}
+                onClick={handleToggleSelectCitie}
+              >
+                <span>{citieSelected || 'Selecione'}</span>
+                <img src={ArrowDownSvg} />
+              </ButtonSelectCity>
+              <CitieList isOpenDropdown={isOpenSelectCitie}>
+                {cityList?.map((item, idx) => (
+                  <li
+                    key={idx}
+                    onClick={() => handleSelectCitie(item.name)}
+                    className={item.name === stateSelected ? 'selected' : ''}
+                  >
+                    {item.name}
+                  </li>
+                ))}
+              </CitieList>
+            </SelectContainer>
             <div className="separator" />
             <ButtonSearch>
               <img src={SearchSvg} />
             </ButtonSearch>
-          </form>
+          </div>
         </Action>
       </Wrapper>
     </Container>

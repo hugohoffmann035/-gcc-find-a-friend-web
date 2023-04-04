@@ -1,15 +1,15 @@
-import { Select } from '@/components/Select'
-
 import logo from '@/assets/icons/logo.svg'
-import search from '@/assets/icons/search.svg'
+
+import { DinamicSelect } from '~/DinamicSelect'
 
 import {
   Container,
   AsideHeader,
-  HeaderInput,
   AsideContent,
   ContentHeader,
   ContentFilters,
+  Logo,
+  CityContainer,
 } from './styles'
 
 const ageOptions = [
@@ -89,33 +89,65 @@ export function Aside() {
   return (
     <Container>
       <AsideHeader>
-        <div>
-          <img src={logo} alt="" />
-          <HeaderInput>
-            <input type="text" placeholder="Insira uma cidade" />
-            <button>
-              <img src={search} alt="ícone de lupa" />
-            </button>
-          </HeaderInput>
-        </div>
+        <Logo>
+          <img src={logo} />
+        </Logo>
+        <CityContainer>
+          <DinamicSelect
+            value="UF"
+            options={ageOptions}
+            onSelect={() => {}}
+            label=""
+            name="age"
+            borderColor="#F15156"
+            background="transparent"
+            borderWidth={1}
+          />
+          <DinamicSelect
+            value="Cidade"
+            options={ageOptions}
+            onSelect={() => {}}
+            label=""
+            name="age"
+            borderColor="#F15156"
+            background="transparent"
+            borderWidth={1}
+          />
+        </CityContainer>
       </AsideHeader>
       <AsideContent>
         <ContentHeader>Filtros</ContentHeader>
         <ContentFilters>
-          <Select name="age" label="Idade" options={ageOptions} />
-
-          <Select
-            name="energy"
-            label="Nível de energia"
-            options={energyOptions}
+          <DinamicSelect
+            value="Selecione"
+            options={ageOptions}
+            onSelect={() => {}}
+            label="Idade"
+            name="age"
           />
 
-          <Select name="size" label="Porte do animal" options={sizeOptions} />
+          <DinamicSelect
+            value="Selecione"
+            options={energyOptions}
+            onSelect={() => {}}
+            label="Nível de energia"
+            name="energy"
+          />
 
-          <Select
-            name="independency"
-            label="Nível de independência"
+          <DinamicSelect
+            value="Selecione"
+            options={sizeOptions}
+            onSelect={() => {}}
+            label="Porte do animal"
+            name="size"
+          />
+
+          <DinamicSelect
+            value="Selecione"
             options={independencyOptions}
+            onSelect={() => {}}
+            label="Nível de independência"
+            name="independency"
           />
         </ContentFilters>
       </AsideContent>

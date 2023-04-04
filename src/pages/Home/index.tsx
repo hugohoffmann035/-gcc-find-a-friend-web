@@ -11,6 +11,8 @@ import {
   StateList,
   CitieList,
 } from './styles'
+import { useNavigate } from 'react-router-dom'
+
 import LogoSvg from '@/assets/icons/logo.svg'
 import DogsSvg from '@/assets/images/dogs.svg'
 import ArrowDownSvg from '@/assets/icons/arrow-down.svg'
@@ -20,12 +22,13 @@ import { useLocation, IState, ICity } from '@/hooks/useLocation'
 import { useEffect, useState } from 'react'
 
 export function Home() {
+  const navigate = useNavigate()
   const { getStates, getCitiesByState } = useLocation()
   const [stateList, setStateList] = useState<IState[]>([])
   const [cityList, setCityList] = useState<ICity[]>([])
   const [isOpenSelectState, setIsOpenSelectState] = useState(false)
   const [isOpenSelectCitie, setIsOpenSelectCitie] = useState(false)
-  const [stateSelected, setStateSelected] = useState('GO')
+  const [stateSelected, setStateSelected] = useState('')
   const [citieSelected, setCitieSelected] = useState('')
   // const [isLoadCities, setIsLoadCities] = useState(false)
 
@@ -71,9 +74,9 @@ export function Home() {
     load()
   }, [])
 
-  // function handleSearchPets() {
-  //   // TO DO
-  // }
+  function handleSearchPets() {
+    navigate('/map')
+  }
 
   // function handleChangeState() {
   //   // TO DO
@@ -113,7 +116,7 @@ export function Home() {
                 isOpenDropdown={isOpenSelectState}
                 onClick={handleToggleSelectState}
               >
-                <span>{stateSelected}</span>
+                <span>{stateSelected || 'UF'}</span>
                 <img src={ArrowDownSvg} />
               </ButtonSelect>
               <StateList isOpenDropdown={isOpenSelectState}>
@@ -134,7 +137,7 @@ export function Home() {
                 isOpenDropdown={isOpenSelectCitie}
                 onClick={handleToggleSelectCitie}
               >
-                <span>{citieSelected || 'Selecione'}</span>
+                <span>{citieSelected || 'Cidade'}</span>
                 <img src={ArrowDownSvg} />
               </ButtonSelectCity>
               <CitieList isOpenDropdown={isOpenSelectCitie}>
@@ -150,7 +153,7 @@ export function Home() {
               </CitieList>
             </SelectContainer>
             <div className="separator" />
-            <ButtonSearch>
+            <ButtonSearch onClick={handleSearchPets}>
               <img src={SearchSvg} />
             </ButtonSearch>
           </div>

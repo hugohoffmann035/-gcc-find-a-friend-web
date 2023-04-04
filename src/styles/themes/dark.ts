@@ -3,6 +3,7 @@ export default {
   colors: {
     primary: '#F15156',
     secundary: '#E44449',
+    third: '#f75f64',
     background: '#FDECED',
     auth_bg: '#ffffff',
     button_primary_bg: '#0D3B66',

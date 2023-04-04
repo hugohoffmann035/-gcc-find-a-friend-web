@@ -7,6 +7,8 @@ import GlobalStyles from '@/styles/global'
 import light from '@/styles/themes/light'
 import dark from '@/styles/themes/dark'
 
+import { LocationProvider } from '@/hooks/useLocation'
+
 function App() {
   const [theme, setTheme] = useState(light)
 
@@ -24,9 +26,11 @@ function App() {
 
   return (
     <ThemeProvider theme={light}>
-      <BrowserRouter>
-        <Router />
-      </BrowserRouter>
+      <LocationProvider>
+        <BrowserRouter>
+          <Router />
+        </BrowserRouter>
+      </LocationProvider>
       <GlobalStyles />
     </ThemeProvider>
   )

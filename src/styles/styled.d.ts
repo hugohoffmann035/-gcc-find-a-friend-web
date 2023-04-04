@@ -6,6 +6,7 @@ declare module 'styled-components' {
     colors: {
       primary: string
       secundary: string
+      third: string
       background: string
       auth_bg: string
       button_primary_bg: string
